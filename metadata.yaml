@@ -1,0 +1,5 @@
+homepage: "http://blackcrow.ai"
+documentation: "http://www.blackcrow.ai/sample_integration_documentation"
+versions:
+  - sha: 9cc5925671c85f22eed57c0a1961f4b1f445db14
+    changeNotes: Initial release.
