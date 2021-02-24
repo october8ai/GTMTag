@@ -1,5 +1,9 @@
 homepage: "http://blackcrow.ai"
 documentation: "http://www.blackcrow.ai"
 versions:
+  # Latest version
+  - sha: 85a6735bbc2ee9fa81447ee35351a1eb34cf3c8e
+    changeNotes: Be more explicit in the site name field
+  # Older versions
   - sha: d4a596ff2c45b865f2024fade24f11355af6c2dd
     changeNotes: Initial release.
