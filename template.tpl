@@ -34,7 +34,7 @@ ___TEMPLATE_PARAMETERS___
     "name": "site_name",
     "displayName": "Site Name",
     "simpleValueType": true,
-    "help": "Please reference your integration documentation for this value.",
+    "help": "Please reference your integration documentation for this value. If your site is xyz.com please enter xyz in this field.",
     "valueValidators": [
       {
         "type": "NON_EMPTY"
