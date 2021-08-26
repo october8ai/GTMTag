@@ -2,9 +2,11 @@ homepage: "http://blackcrow.ai"
 documentation: "https://www.blackcrow.ai/integration/gtm"
 versions:
   # Latest version
+  - sha: 730922a3f3c9b743bf8668d7e186d0b6c5f9a7fb
+    changeNotes: Update name
+  # Older versions
   - sha: 230645360dfea61f7e2d4509d27f7189c878eb6b
     changeNotes: Added optional member id
-  # Older versions
   - sha: 427dc4e57d020dfae147348baf83ce5aa0eea9d8
     changeNotes: Rename pixel
   - sha: 045634b93f4a683976204cdee51f412b82c13c28
