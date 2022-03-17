@@ -34,19 +34,7 @@ ___TEMPLATE_PARAMETERS___
     "name": "site_name",
     "simpleValueType": true,
     "help": "If your site is xyz.com please enter xyz in this field.",
-    "valueValidators": [
-      {
-        "type": "REGEX",
-        "args": [
-          "^[^.|{]*$"
-        ],
-        "errorMessage": "It looks like you entered a URL.\n\nPlease only enter the domain name. If your site is https://xyz.com, please only enter xyz here.",
-        "enablingConditions": []
-      },
-      {
-        "type": "NON_EMPTY"
-      }
-    ],
+    "valueValidators": [],
     "displayName": "Domain Name"
   },
   {
@@ -66,18 +54,32 @@ const encodeUriComponent = require('encodeUriComponent');
 const copyFromWindow = require('copyFromWindow');
 const callInWindow = require('callInWindow');
 const createQueue = require('createQueue');
+const logToConsole = require('logToConsole');
 
-const blackcrow = copyFromWindow('blackcrow') || createQueue('blackcrow');
-callInWindow('blackcrow.push', {
-    trigger: 'set',
-    data: {
-        member_id: data.member_id || ''
+
+const getDomain = (siteName) => {
+    let top_level_domains = ["gov", "org", "co", "com", "in", "info", "net", "uk", "af", "am", "ar", "au", "as", "az", "be", "bg", "bn", "bo", "bs", "ca", "cs", "cy", "da", "de", "dv", "el", "en", "es", "et", "eu", "fa", "fi", "fo", "fr", "gd", "gl", "gn", "gu", "he", "hi", "hr", "hu", "hy", "id", "is", "it", "jp", "ka", "kk", "km", "kn", "ko", "ks", "la", "lo", "lt", "lv", "mi", "mk", "ml", "mn", "mr", "ms", "mt", "my", "nb", "ne", "nl", "or", "pa", "pl", "pt", "rm", "ro", "ru", "sa", "sb", "sd", "si", "sk", "sl", "so", "sq", "sr", "sv", "sw", "ta", "te", "tg", "th", "tk", "tn", "tr", "ts", "tt", "uk", "ur", "uz", "vi", "xh", "yi", "zh", "zu"];
+    let site_name_without_protocol = siteName.replace('http://','').replace('https://',''),
+        components = site_name_without_protocol.split('.'),
+        len_com = components.length,
+        len_dom = top_level_domains.length;
+    
+    for(let j = 0; j < len_com; j++) {
+        for(let i = 0; i < len_dom; i++){
+            if(top_level_domains[i] == components[j]){
+                components.splice(j, 1);
+                j--;
+            }
+        }
     }
-});
 
-let site_name = data.site_name;
+    return components.join('_');
+};
 
-injectScript('https://init.blackcrow.ai/js/core/' + encodeUriComponent(site_name) + '.js?source=gtm&version=template');
+const site_name = getDomain(data.site_name);
+
+injectScript('https://init.blackcrow.ai/js/core/' + encodeUriComponent(site_name) + '.js');
+logToConsole('https://init.blackcrow.ai/js/core/' + encodeUriComponent(site_name) + '.js');
 data.gtmOnSuccess();
 
 
@@ -209,6 +211,24 @@ ___WEB_PERMISSIONS___
       "isEditedByUser": true
     },
     "isRequired": true
+  },
+  {
+    "instance": {
+      "key": {
+        "publicId": "logging",
+        "versionId": "1"
+      },
+      "param": [
+        {
+          "key": "environments",
+          "value": {
+            "type": 1,
+            "string": "debug"
+          }
+        }
+      ]
+    },
+    "isRequired": true
   }
 ]
 
@@ -221,3 +241,5 @@ scenarios: []
 ___NOTES___
 
 Created on 10/28/2020, 2:20:40 AM
+
+
