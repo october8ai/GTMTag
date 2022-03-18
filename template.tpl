@@ -33,18 +33,15 @@ ___TEMPLATE_PARAMETERS___
     "type": "TEXT",
     "name": "site_name",
     "simpleValueType": true,
-    "help": "If your site is xyz.com please enter xyz in this field.",
     "valueValidators": [
+      {
+        "type": "NON_EMPTY"
+      },
       {
         "type": "REGEX",
         "args": [
-          "^[^.|{]*$"
-        ],
-        "errorMessage": "It looks like you entered a URL.\n\nPlease only enter the domain name. If your site is https://xyz.com, please only enter xyz here.",
-        "enablingConditions": []
-      },
-      {
-        "type": "NON_EMPTY"
+          "([^{]+)"
+        ]
       }
     ],
     "displayName": "Domain Name"
@@ -70,7 +67,7 @@ const createQueue = require('createQueue');
 const blackcrow = copyFromWindow('blackcrow') || createQueue('blackcrow');
 callInWindow('blackcrow.push', {
     trigger: 'set',
-    data: {
+    data: {  
         member_id: data.member_id || ''
     }
 });
@@ -78,7 +75,7 @@ callInWindow('blackcrow.push', {
 
 const getDomain = (siteName) => {
     let top_level_domains = ["gov", "org", "co", "com", "in", "info", "net", "uk", "af", "am", "ar", "au", "as", "az", "be", "bg", "bn", "bo", "bs", "ca", "cs", "cy", "da", "de", "dv", "el", "en", "es", "et", "eu", "fa", "fi", "fo", "fr", "gd", "gl", "gn", "gu", "he", "hi", "hr", "hu", "hy", "id", "is", "it", "jp", "ka", "kk", "km", "kn", "ko", "ks", "la", "lo", "lt", "lv", "mi", "mk", "ml", "mn", "mr", "ms", "mt", "my", "nb", "ne", "nl", "or", "pa", "pl", "pt", "rm", "ro", "ru", "sa", "sb", "sd", "si", "sk", "sl", "so", "sq", "sr", "sv", "sw", "ta", "te", "tg", "th", "tk", "tn", "tr", "ts", "tt", "uk", "ur", "uz", "vi", "xh", "yi", "zh", "zu"];
-    let site_name_without_protocol = siteName.replace('http://','').replace('https://',''),
+    let site_name_without_protocol = siteName.replace('http://','').replace('https://','').replace('www.', ''),
         components = site_name_without_protocol.split('.'),
         len_com = components.length,
         len_dom = top_level_domains.length;
@@ -241,3 +238,5 @@ scenarios: []
 ___NOTES___
 
 Created on 10/28/2020, 2:20:40 AM
+
+
